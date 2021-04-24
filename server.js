@@ -23,7 +23,11 @@ require('./config/passport')(passport)
 
 
 const PORT = process.env.PORT || 3000
-
+/*
 app.listen(PORT, console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`))
 
+*/
 
+server.listen(port,()=>{  // do not add localhost here if you are deploying it
+    console.log("server listening to port "+port);
+});
