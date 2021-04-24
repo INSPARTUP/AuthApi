@@ -7,7 +7,7 @@
     "node": "12.11.1"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=production node server",
+    "start": "nodemon --exec babel-node server.js",
     "dev": "cross-env NODE_ENV=development nodemon server"
   },
   "author": "Rajayogan",
