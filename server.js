@@ -22,7 +22,7 @@ app.use(passport.initialize())
 require('./config/passport')(passport)
 
 
-let PORT = process.env.PORT || 80
+let PORT = process.env.PORT || 27133
 
 app.listen(PORT, console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`))
 
