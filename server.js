@@ -21,15 +21,15 @@ app.use(routes)
 app.use(passport.initialize())
 require('./config/passport')(passport)
 
-/*
+
 let PORT = process.env.PORT || config.httpPort
 
 app.listen(PORT, console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`))
 
-*/
 
+/*
 const { PORT=3000, LOCAL_ADDRESS='0.0.0.0' } = process.env
 server.listen(PORT, LOCAL_ADDRESS, () => {
   const address = server.address();
   console.log('server listening at', address);
-});
+});*/
