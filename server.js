@@ -28,7 +28,7 @@ require('./config/passport')(passport)
 //let PORT = process.env.PORT || config.httpPort
 
 
-let PORT = process.env.PORT || 3000
+let PORT = process.env.PORT || 8080
 app.listen(PORT, console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`))
 
 
