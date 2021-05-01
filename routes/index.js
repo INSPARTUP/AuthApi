@@ -23,8 +23,8 @@ router.post('/authenticateadmin', actions.authenticateAdmin)
 
 //@desc Get info on a user
 //@route GET /getinfo
-router.get('/getinfouser', actions.getinfouser)
-router.get('/getinfoadmin', actions.getinfoadmin)
+router.get('/getinfo', actions.getinfo)
+
 
 
 module.exports = router

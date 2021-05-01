@@ -2,6 +2,18 @@ var mongoose = require('mongoose')
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt')
 var adminSchema = new Schema({
+    nom: {
+        type: String,
+        require: true
+    },
+    prenom: {
+        type: String,
+        require: true
+    },
+    numtel: {
+        type: String,
+        require: true
+    },
     email: {
         type: String,
         require: true

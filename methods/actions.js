@@ -6,7 +6,7 @@ var config = require('../config/dbconfig')
 var functions = {
     addUser: function (req, res) {
         if ((!req.body.nom) || (!req.body.prenom) || (!req.body.numtel) || (!req.body.email) || (!req.body.password)) {
-            res.json({success: false, msg: 'Enter all fields'})
+            res.json({ success: false, msg: 'Enter all fields' })
         }
         else {
             var newUser = User({
@@ -18,31 +18,33 @@ var functions = {
             });
             newUser.save(function (err, newUser) {
                 if (err) {
-                    res.json({success: false, msg: 'Failed to save'})
+                    res.json({ success: false, msg: 'Failed to save' })
                 }
                 else {
-                    res.json({success: true, msg: 'Successfully saved'})
+                    res.json({ success: true, msg: 'Successfully saved' })
                 }
             })
         }
     },
 
     addAdmin: function (req, res) {
-        if ( (!req.body.email) || (!req.body.password)) {
-            res.json({success: false, msg: 'Enter all fields'})
+        if ((!req.body.nom) || (!req.body.prenom) || (!req.body.numtel) || (!req.body.email) || (!req.body.password)) {
+            res.json({ success: false, msg: 'Enter all fields' })
         }
         else {
             var newAdmin = Admin({
-          
+                nom: req.body.nom,
+                prenom: req.body.prenom,
+                numtel: req.body.numtel,
                 email: req.body.email,
                 password: req.body.password
             });
             newAdmin.save(function (err, newAdmin) {
                 if (err) {
-                    res.json({success: false, msg: 'Failed to save'})
+                    res.json({ success: false, msg: 'Failed to save' })
                 }
                 else {
-                    res.json({success: true, msg: 'Successfully saved'})
+                    res.json({ success: true, msg: 'Successfully saved' })
                 }
             })
         }
@@ -52,47 +54,47 @@ var functions = {
         User.findOne({
             email: req.body.email
         }, function (err, user) {
-                if (err) throw err
-                if (!user) {
-                    res.status(403).send({success: false, msg: 'Authentication Failed, User not found'})
-                }
+            if (err) throw err
+            if (!user) {
+                res.status(403).send({ success: false, msg: 'Authentication Failed, User not found' })
+            }
 
-                else {
-                    user.comparePassword(req.body.password, function (err, isMatch) {
-                        if (isMatch && !err) {
-                            var token = jwt.encode(user, config.secret)
-                            res.json({success: true, token: token})
-                        }
-                        else {
-                            return res.status(403).send({success: false, msg: 'Authentication failed, wrong password'})
-                        }
-                    })
-                }
+            else {
+                user.comparePassword(req.body.password, function (err, isMatch) {
+                    if (isMatch && !err) {
+                        var token = jwt.encode(user, config.secret)
+                        res.json({ success: true, token: token })
+                    }
+                    else {
+                        return res.status(403).send({ success: false, msg: 'Authentication failed, wrong password' })
+                    }
+                })
+            }
         }
         )
     },
 
 
     authenticateAdmin: function (req, res) {
-       Admin.findOne({
+        Admin.findOne({
             email: req.body.email
         }, function (err, admin) {
-                if (err) throw err
-                if (!admin) {
-                    res.status(403).send({success: false, msg: 'Authentication Failed, Admin not found'})
-                }
+            if (err) throw err
+            if (!admin) {
+                res.status(403).send({ success: false, msg: 'Authentication Failed, Admin not found' })
+            }
 
-                else {
-                    admin.comparePassword(req.body.password, function (err, isMatch) {
-                        if (isMatch && !err) {
-                            var token = jwt.encode(admin, config.secret)
-                            res.json({success: true, token: token})
-                        }
-                        else {
-                            return res.status(403).send({success: false, msg: 'Authentication failed, wrong password'})
-                        }
-                    })
-                }
+            else {
+                admin.comparePassword(req.body.password, function (err, isMatch) {
+                    if (isMatch && !err) {
+                        var token = jwt.encode(admin, config.secret)
+                        res.json({ success: true, token: token })
+                    }
+                    else {
+                        return res.status(403).send({ success: false, msg: 'Authentication failed, wrong password' })
+                    }
+                })
+            }
         }
         )
     },
@@ -100,27 +102,18 @@ var functions = {
 
     /* GET /protected-resource
     Authorisation: Bearer <JWT> */
-    getinfouser: function (req, res) {
-      if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {     
+    getinfo: function (req, res) {
+        if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
             var token = req.headers.authorization.split(' ')[1]
             var decodedtoken = jwt.decode(token, config.secret)
-            return res.json({success: true, msg: 'Hello ' + decodedtoken.email})
-   }
+            return res.json({ success: true, msg: 'Hello ' + decodedtoken.nom + ' ' + decodedtoken.prenom })
+        }
         else {
-            return res.json({success: false, msg: 'No Headers'})
-       }
+            return res.json({ success: false, msg: 'No Headers' })
+        }
     },
 
-    getinfoadmin: function (req, res) {
-        if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {     
-              var token = req.headers.authorization.split(' ')[1]
-              var decodedtoken = jwt.decode(token, config.secret)
-              return res.json({success: true, msg: 'Hello ' + decodedtoken.email})
-     }
-          else {
-              return res.json({success: false, msg: 'No Headers'})
-         }
-      }
+
 
 
 }
