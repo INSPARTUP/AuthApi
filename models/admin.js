@@ -1,7 +1,7 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt')
-var userSchema = new Schema({
+var adminSchema = new Schema({
     nom: {
         type: String,
         require: true
@@ -24,18 +24,18 @@ var userSchema = new Schema({
     }
 })
 
-userSchema.pre('save', function (next) {
-    var user = this;
+adminSchema.pre('save', function (next) {
+    var admin = this;
     if (this.isModified('password') || this.isNew) {
         bcrypt.genSalt(10, function (err, salt) {
             if (err) {
                 return next(err)
             }
-            bcrypt.hash(user.password, salt, function (err, hash) {
+            bcrypt.hash(admin.password, salt, function (err, hash) {
                 if (err) {
                     return next(err)
                 }
-                user.password = hash;
+                admin.password = hash;
                 next()
             })
         })
@@ -45,7 +45,7 @@ userSchema.pre('save', function (next) {
     }
 })
 
-userSchema.methods.comparePassword = function (passw, cb) {
+adminSchema.methods.comparePassword = function (passw, cb) {
     bcrypt.compare(passw, this.password, function (err, isMatch) {
         if(err) {
             return cb(err)
@@ -54,4 +54,5 @@ userSchema.methods.comparePassword = function (passw, cb) {
     })
 }
 
-module.exports = mongoose.model('User', userSchema) //here we change the name of collection (admins or users)
+module.exports = mongoose.model('Admin', adminSchema) //here we change the name of collection (admins or users)
+
